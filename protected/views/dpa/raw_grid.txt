@@ -1,0 +1,234 @@
+<?php 
+/*$this->widget('booster.widgets.TbExtendedGridView', array(
+    'filter'=>$model,
+	'enableSorting' => false,
+    'type'=>'striped bordered',
+    'dataProvider'=>$model->searchParent(),
+   // 'template' => "{items}",
+    'columns' => array(
+		array(
+        'header'=>'No.',
+		'htmlOptions'=>array('width'=>'10'),
+        'value'=>'$this->grid->dataProvider->pagination->currentPage * $this->grid->dataProvider->pagination->pageSize + ($row+1)',
+		),
+		
+		array(
+            'class'=>'booster.widgets.TbRelationalColumn2',
+            'name' => 'uraian',
+			'filter'=>'',
+			'header'=>'Uraian',
+			'htmlOptions'=>array('width'=>'150'),
+			//'htmlOptions'=>array('class'=>'parent_grid'),
+            'url' => $this->createUrl('rka/relational'),
+            'value'=>'$data["uraian"]',
+            'afterAjaxUpdate' => 'js:function(tr,rowid,data){
+                
+            }'
+        ),
+		array(
+			'class'=>'CDataColumn',
+			'htmlOptions'=>array('width'=>250),
+			'type'=>'raw',
+			'filter'=> '',
+			'name'=>'uraian',
+			'value'=>'$data->uraian',
+			'filter'=> '',
+		),
+       
+		array(
+			'class'=>'CDataColumn',
+			'htmlOptions'=>array('width'=>250),
+			'type'=>'raw',
+			'filter'=> '',
+			'name'=>'kegiatan',
+			'value'=>'$data->kegiatan_->kegiatan',
+			'filter'=> '',
+		),
+		array(
+			'class'=>'CDataColumn',
+			'htmlOptions'=>array('width'=>250),
+			'type'=>'raw',
+			'filter'=> '',
+			'name'=>'totalPerUraian',
+			'value'=>'$data->totalPerUraian',
+			'filter'=> '',
+		),
+		array(
+            'class'=>'booster.widgets.TbRelationalColumn2',
+            'name' => 'uraian',
+			'filter'=>'',
+			'header'=>'',
+			'htmlOptions'=>array('width'=>'150'),
+			//'htmlOptions'=>array('class'=>'parent_grid'),
+            'url' => $this->createUrl('rka/relational'),
+             //'value'=>'CHtml::tag("a",array("class"=>"ico-small ico-edit edit_service_trigger", "href"=>"#")). CHtml::tag("a",array("class"=>"ico-small ico-delete delete_service_trigger", "href"=>"#"))',
+            'afterAjaxUpdate' => 'js:function(tr,rowid,data){
+                
+            }'
+        ),
+		),
+
+));
+ */
+//instead of zii.widgets.grid.CGridView a new extension CQTreeGridView is used here
+/*
+$this->widget('ext.QTreeGridView.CQTreeGridView', array(
+    'id'=>'rka-grid',
+    // 'cssFile'=>false,
+    'ajaxUpdate' => false,
+    'dataProvider'=>$model->search(),
+    'filter'=>$model,
+    'columns'=>array(
+       array(
+			'class'=>'CDataColumn',
+			'htmlOptions'=>array('width'=>150),
+			'type'=>'raw',
+			'name'=>'skpd',
+			'value'=>'$data->skpd_->nama_skpd',
+			'filter'=> CHtml::listData(Skpd::model()->findAll(array('order'=>'nama_skpd')), 'id', 'nama_skpd'),
+			'filter'=>'',
+			'visible'=>Yii::app()->user->isAdminBappeda()
+		),
+		array(
+			'class'=>'CDataColumn',
+			'htmlOptions'=>array('width'=>200),
+			'type'=>'raw',
+			'name'=>'skpd',
+			'value'=>'$data->skpd_->nama_skpd',
+			'filter'=> '',
+			'visible'=>!Yii::app()->user->isAdminBappeda()
+		),
+		
+		array(
+			'class'=>'CDataColumn',
+			'htmlOptions'=>array('width'=>250),
+			'type'=>'raw',
+			'filter'=> '',
+			'name'=>'kegiatan',
+			'value'=>'$data->kegiatan_->kegiatan',
+			'filter'=> '',
+		),
+		array(
+			'class'=>'CDataColumn',
+			'htmlOptions'=>array('width'=>250),
+			'type'=>'raw',
+			'filter'=> '',
+			'name'=>'uraianKegiatan',
+			'value'=>'$data->uraianKegiatan',
+			'filter'=> '',
+		),
+		array(
+			'class'=>'CDataColumn',
+			'htmlOptions'=>array('width'=>250),
+			'type'=>'raw',
+			'filter'=> '',
+			'name'=>'sub_uraian',
+			'value'=>'$data->sub_uraian',
+			'filter'=> '',
+		),
+		array(
+			'class'=>'CDataColumn',
+			'htmlOptions'=>array('width'=>250),
+			'type'=>'raw',
+			'filter'=> '',
+			'name'=>'item',
+			'value'=>'$data->item',
+			'filter'=> '',
+		),
+		array(
+			'class' => 'booster.widgets.TbEditableColumn',
+			'name' => 'volume',
+			'sortable' => true,
+			'filter'=> '',
+			//'htmlOptions'=>array('id' => ($data->harga_satuan==0) ? "parent_" : "child_"),
+			'cssClassExpression' => '$data->harga_satuan==0 ? \'parent_\' : \'\';', 
+			'editable' => array(
+				'url' => $this->createUrl('rka/gridUpdate'),
+				//'htmlOptions'=>array('title'=>'Contoh 10,000,000'),
+				'name'=>"volume",
+				'inputclass' => 'col-md-3 ',
+				'options' => array(
+				 'placement' => 'left',
+				'success' => 'js: function(data) {
+					$.fn.yiiGridView.update("rka-grid");
+				}',
+				),
+			)
+		),
+		
+		array(
+			'class' => 'booster.widgets.TbEditableColumn',
+			'name' => 'satuan',
+			'sortable' => true,
+			'filter'=> '',
+			//'htmlOptions'=>array('id' => ($data->harga_satuan==0) ? "parent_" : "child_"),
+			'cssClassExpression' => '$data->harga_satuan==0 ? \'parent_\' : \'\';', 
+			'editable' => array(
+				'url' => $this->createUrl('rka/gridUpdate'),
+				//'htmlOptions'=>array('title'=>'Contoh 10,000,000'),
+				'name'=>"satuan",
+				'inputclass' => 'col-md-3 ',
+				'options' => array(
+				 'placement' => 'left',
+				'success' => 'js: function(data) {
+					$.fn.yiiGridView.update("rka-grid");
+				}',
+				),
+			)
+		),
+		
+		array(
+			'class' => 'booster.widgets.TbEditableColumn',
+			'name' => 'harga_satuan',
+			'sortable' => true,
+			'filter'=> '',
+			//'htmlOptions'=>array('id' => ($data->harga_satuan==0) ? "parent_" : "child_"),
+			'cssClassExpression' => '$data->harga_satuan==0 ? \'parent_\' : \'\';', 
+			'value' => 'CHtml::encode(number_format($data->harga_satuan))',
+			'editable' => array(
+				'url' => $this->createUrl('rka/gridUpdate'),
+				//'htmlOptions'=>array('title'=>'Contoh 10,000,000'),
+				'name'=>"harga_satuan",
+				'inputclass' => 'col-md-3 ',
+				'options' => array(
+				 'placement' => 'left',
+				'success' => 'js: function(data) {
+					$.fn.yiiGridView.update("rka-grid");
+				}',
+				),
+			)
+		),
+		 array(
+            'name' => 'harga_satuan_kegiatan',
+			'filter'=>'',
+			'htmlOptions'=>array('width'=>'200'),
+            'value'=>'AplikasiKomponen::uang($data->harga_satuan_kegiatan)',
+        ),
+		//'level',
+        array(
+           // 'name' => 'parent_id',
+			'type'=>'raw',
+			'filter'=>'',
+            'value'=>function($data){
+				if($data->level == "uraian")
+				{
+					echo '<a id="tambah_sub_uraian" data-original-title="Tambah Sub Uraian" class="view" title="" data-toggle="tooltip" href="index.php?r=rka/tambahSubUraian&parent_id='.$data->parent_id.'"><i class="glyphicon glyphicon-plus"></i></a>';
+				}else if($data->level=="sub uraian")
+				{
+					echo '<a id="tambah_item" data-original-title="Tambah Item" class="view" title="" data-toggle="tooltip" href="index.php?r=rka/tambahItem&parent_id='.$data->parent_id.'"><i class="glyphicon glyphicon-plus"></i></a>';
+				}
+			},
+        ),
+        array(
+            'class'=>'booster.widgets.TbButtonColumn',
+			'cssClassExpression' => '$data->harga_satuan==0 ? \'parent_\' : \'\';', 
+            'template'=>'{delete}',
+            'buttons'=>array
+            (
+		
+			),
+    ),
+    ),
+));
+*/
+?>
